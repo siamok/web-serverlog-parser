@@ -47,6 +47,13 @@ describe ProgramOptions do
       rescue SystemExit => e
         expect(e.status).to eq(1)
       end
+
+      it 'fails when option is not provided' do
+        ARGV.replace([path, path1, '-o'])
+        ProgramOptions.new.parse
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+      end
     end
   end
 end

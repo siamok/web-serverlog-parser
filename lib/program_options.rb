@@ -3,7 +3,7 @@
 class ProgramOptions
   OPTIONS = ['o'].freeze
 
-  attr_reader :paths, :output, :state
+  attr_reader :paths, :output
 
   def initialize
     @paths = []
@@ -21,7 +21,7 @@ class ProgramOptions
         parse_arg(arg)
       end
     end
-    show_error('Empty option') if @state == :option
+    show_error('Empty option') if @state == :output
 
     { paths: paths, output: output }
   end
@@ -43,7 +43,7 @@ class ProgramOptions
   end
 
   def parse_arg(arg)
-    case state
+    case @state
     when :paths
       parse_paths(arg)
     when :output
