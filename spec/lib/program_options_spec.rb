@@ -73,6 +73,11 @@ describe ProgramOptions do
       rescue ArgumentError => e
         expect(e.message).to eq(error_message(errors[:missing_path]))
       end
+
+      it 'parses unique option' do
+        ARGV.replace([path, path1, '-u'])
+        expect(program_options[:unique]).to eq(true)
+      end
     end
   end
 end

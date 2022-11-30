@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class ProgramOptions
-  OPTIONS = ['o'].freeze
+  OPTIONS = %w[o u].freeze
 
-  attr_reader :paths, :output
+  attr_reader :paths, :unique, :output
 
   def initialize
     @paths = []
     @output = nil
     @state = :paths
+    @unique = false
   end
 
   def read_arguments
@@ -19,7 +20,7 @@ class ProgramOptions
     show_error('Empty output: -o') if @state == :output
     show_error('Missing path argument') if @paths.empty?
 
-    { paths: paths, output: output }
+    { paths: paths, output: output, unique: unique }
   end
 
   private
@@ -42,8 +43,9 @@ class ProgramOptions
 
   def print_help
     puts 'usage ./parser <path>[,<path>...]'
-    puts "\t-o <output_path>"
-    puts "\t-h"
+    puts "\t-o <output_path> - specified output file"
+    puts "\t-u - unique value"
+    puts "\t-h - this message"
 
     exit(true)
   end
@@ -63,6 +65,8 @@ class ProgramOptions
     case option
     when 'o'
       @state = :output
+    when 'u'
+      @unique = true
     end
   end
 
