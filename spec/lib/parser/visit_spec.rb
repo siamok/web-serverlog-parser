@@ -1,4 +1,3 @@
-
 require 'parser/visit'
 
 describe Parser::Visit do
