@@ -4,14 +4,15 @@ require 'program_options'
 
 describe ProgramOptions do
   describe '#parse' do
+    let(:program_options) { ProgramOptions.new.read_arguments }
     context 'showing help' do
       let(:my_argv) { ['-h'] }
 
       it 'parses help and shuts down' do
         ARGV.replace(my_argv)
-        ProgramOptions.new.parse
+        program_options
       rescue SystemExit => e
-        expect(e.status).to eq(0)
+        expect(e.success?).to eq(true)
       end
     end
 
@@ -19,40 +20,59 @@ describe ProgramOptions do
       let(:path) { 'resources/test.log' }
       let(:path1) { 'webserver.log' }
       let(:output) { 'output.log' }
+      let(:errors) do
+        {
+          missing_path: 'Missing path argument',
+          unexpected_option: 'Unexpected option: %s',
+          empty_option: 'Empty output: %s',
+          unexpected_path: 'Unexpected path after output: %s'
+        }
+      end
+
+      let(:error_append) { 'Type -h for help' }
+
+      def error_message(error)
+        "#{error}. #{error_append}"
+      end
 
       it 'parses paths' do
         ARGV.replace([path, path1])
-        program_params = ProgramOptions.new.parse
 
-        expect(program_params[:paths]).to eq([path, path1])
+        expect(program_options[:paths]).to eq([path, path1])
       end
 
       it 'parses output' do
         ARGV.replace([path, path1, '-o', output])
-        program_params = ProgramOptions.new.parse
 
-        expect(program_params[:output]).to eq(output)
+        expect(program_options[:output]).to eq(output)
       end
 
       it 'fails when output is mixed with paths' do
         ARGV.replace([path, '-o', output, path1])
-        ProgramOptions.new.parse
-      rescue SystemExit => e
-        expect(e.status).to eq(1)
+        program_options
+      rescue ArgumentError => e
+        expect(e.message).to eq(error_message(errors[:unexpected_path]) % path1)
       end
 
       it 'fails when other option is provided' do
         ARGV.replace([path, path1, '-g'])
-        ProgramOptions.new.parse
-      rescue SystemExit => e
-        expect(e.status).to eq(1)
+        program_options
+      rescue ArgumentError => e
+        expect(e.message).to eq(error_message(errors[:unexpected_option]) % '-g')
       end
 
       it 'fails when option is not provided' do
         ARGV.replace([path, path1, '-o'])
-        ProgramOptions.new.parse
-      rescue SystemExit => e
-        expect(e.status).to eq(1)
+        program_options
+      rescue ArgumentError => e
+        expect(e.message).to eq(error_message(errors[:empty_option]) % '-o')
+      end
+
+      it 'fails when path is not provided' do
+        ARGV.replace(['-o', 'output'])
+        program_options
+      rescue ArgumentError => e
+        expect(e.message).to eq(error_message(errors[:missing_path]))
       end
     end
   end

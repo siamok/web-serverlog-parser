@@ -11,7 +11,7 @@ class ProgramOptions
     @state = :paths
   end
 
-  def parse
+  def read_arguments
     return if parse_help
 
     ARGV.each do |arg|
@@ -21,7 +21,8 @@ class ProgramOptions
         parse_arg(arg)
       end
     end
-    show_error('Empty option') if @state == :output
+    show_error('Empty output: -o') if @state == :output
+    show_error('Missing path argument') if @paths.empty?
 
     { paths: paths, output: output }
   end
@@ -35,9 +36,9 @@ class ProgramOptions
   end
 
   def print_help
-    pp 'usage ./parser <path>[,<path>...]'
-    pp '-o <output_path>'
-    pp '-h'
+    puts 'usage ./parser <path>[,<path>...]'
+    puts "\t-o <output_path>"
+    puts "\t-h"
 
     exit(true)
   end
@@ -56,7 +57,7 @@ class ProgramOptions
     when 'o'
       @state = :output
     else
-      show_error("Unexpected option: #{option}")
+      show_error("Unexpected option: -#{option}")
     end
   end
 
@@ -74,7 +75,6 @@ class ProgramOptions
   end
 
   def show_error(error)
-    pp error, 'Type -h for help'
-    exit(false)
+    raise ArgumentError, "#{error}. Type -h for help"
   end
 end
