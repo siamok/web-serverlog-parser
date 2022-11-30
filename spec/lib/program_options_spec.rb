@@ -3,7 +3,7 @@
 require 'program_options'
 
 describe ProgramOptions do
-  describe '#parse' do
+  describe '#read_arguments' do
     let(:program_options) { ProgramOptions.new.read_arguments }
     context 'showing help' do
       let(:my_argv) { ['-h'] }
