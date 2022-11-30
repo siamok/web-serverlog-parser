@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Parser
   class Visit
     attr_accessor :count
