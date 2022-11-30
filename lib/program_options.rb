@@ -14,13 +14,8 @@ class ProgramOptions
   def read_arguments
     return if parse_help
 
-    ARGV.each do |arg|
-      if arg.start_with?('-')
-        validate_option(arg[1..])
-      else
-        parse_arg(arg)
-      end
-    end
+    process_args
+
     show_error('Empty output: -o') if @state == :output
     show_error('Missing path argument') if @paths.empty?
 
@@ -28,6 +23,16 @@ class ProgramOptions
   end
 
   private
+
+  def process_args
+    ARGV.each do |arg|
+      if arg.start_with?('-')
+        validate_option(arg[1..])
+      else
+        parse_arg(arg)
+      end
+    end
+  end
 
   def parse_help
     return unless ARGV.include?('-h')
@@ -53,11 +58,11 @@ class ProgramOptions
   end
 
   def validate_option(option)
+    show_error("Unexpected option: -#{option}") unless OPTIONS.include?(option)
+
     case option
     when 'o'
       @state = :output
-    else
-      show_error("Unexpected option: -#{option}")
     end
   end
 

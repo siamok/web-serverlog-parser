@@ -10,9 +10,8 @@ describe ProgramOptions do
 
       it 'parses help and shuts down' do
         ARGV.replace(my_argv)
-        program_options
-      rescue SystemExit => e
-        expect(e.success?).to eq(true)
+
+        expect { program_options }.to raise_error(SystemExit)
       end
     end
 
