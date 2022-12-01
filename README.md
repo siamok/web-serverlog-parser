@@ -23,6 +23,9 @@ usage ./parser <path>[,<path>...]
     -h - this message
 ```
 
+`./parser.rb webserver.log`
+webserver.log is test file provided in the repo
+
 Specifing output file we can save output to file
 Adding `-u` shows unique visits
 
