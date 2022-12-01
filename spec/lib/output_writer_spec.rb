@@ -22,9 +22,9 @@ describe OutputWriter do
 
     context 'output_file provided' do
       let(:output_file) { 'test.log' }
-      let(:options) { { output: output_file } }
+      let(:options) { { output: output_file, unique: true } }
       let(:output_string) do
-        "/test/1 4 visits\n/test/ 2 visits\n/test/2 1 visit"
+        "/test/1 4 unique visits\n/test/ 2 unique visits\n/test/2 1 unique visit"
       end
 
       before do

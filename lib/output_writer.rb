@@ -20,7 +20,7 @@ class OutputWriter
 
   def prepare_out(input)
     input.map do |page, visit|
-      format("#{page} #{visit} visit%s", (visit == 1 ? '' : 's'))
+      format("#{page} #{visit} %svisit%s", (unique? ? 'unique ' : ''), (visit == 1 ? '' : 's'))
     end
   end
 
@@ -36,5 +36,9 @@ class OutputWriter
 
   def output_file
     @options[:output]
+  end
+
+  def unique?
+    @options[:unique] == true
   end
 end
