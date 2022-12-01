@@ -17,6 +17,7 @@ module Parser
           end
         end
       end
+
       visits.result(unique: options[:unique])
     end
 
