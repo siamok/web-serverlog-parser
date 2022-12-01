@@ -15,10 +15,10 @@ module Parser
     end
 
     def result(unique: false)
-      pages = @visits.each_with_object({}) do |visit, acc|
-        value = unique ? visit.last.ips.size : visit.last.count
+      pages = @visits.each_with_object({}) do |(page, visit), acc|
+        value = unique ? visit.ips.size : visit.count
 
-        acc[visit.first] = value
+        acc[page] = value
       end
       pages.sort_by { |_k, v| v }.reverse.to_h
     end
