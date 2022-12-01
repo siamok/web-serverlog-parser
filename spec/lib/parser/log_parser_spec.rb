@@ -9,7 +9,7 @@ describe Parser::LogParser do
     let(:options) { { paths: [input_file], output: nil, unique: false } }
     let(:options_multiple_paths) { { paths: [input_file, input_file1], output: nil, unique: false } }
 
-    let(:page) { '/test/' }
+    let(:page) { '/test' }
     let(:page1) { '/test/1' }
     let(:page2) { '/test/2' }
     let(:ip) { '1.1.1.1' }

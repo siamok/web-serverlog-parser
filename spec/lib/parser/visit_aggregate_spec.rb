@@ -5,9 +5,9 @@ require 'parser/visit_aggregate'
 describe Parser::VisitAggregate do
   let(:visit_aggregate) { Parser::VisitAggregate.new }
   let(:page) { '/test/1' }
-  let(:page1) { '/test/' }
+  let(:page1) { '/test' }
   let(:ip) { '1.1.1.1' }
-  let(:ip1) { '1.1.1.2' }
+  let(:ip1) { '100.10.111.12' }
 
   describe '#initialize' do
     it 'initialize hash for visits' do

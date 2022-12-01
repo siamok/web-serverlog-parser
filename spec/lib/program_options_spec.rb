@@ -7,11 +7,15 @@ describe ProgramOptions do
     let(:program_options) { ProgramOptions.new.read_arguments }
     context 'showing help' do
       let(:my_argv) { ['-h'] }
+      let(:help_string) do
+        "usage ./parser <path>[,<path>...]\n\t-o <output_path> - specified output file\n\t-u - unique value\n\t-h - this message\n"
+      end
 
       it 'parses help and shuts down' do
         ARGV.replace(my_argv)
-
-        expect { program_options }.to raise_error(SystemExit)
+        expect do
+          expect { program_options }.to raise_error(SystemExit)
+        end.to output(help_string).to_stdout
       end
     end
 

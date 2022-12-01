@@ -12,7 +12,7 @@ module Parser
       @visits = Parser::VisitAggregate.new
       paths.each do |path|
         File.foreach(path) do |line|
-          if match = /^(?<page>\/\w*\/\d?)\s*(?<ip>\d\.\d\.\d\.\d)$/.match(line)
+          if (match = %r{^(?<page>\/\w*(\/\d?)?)\s(?<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*$}.match(line))
             visits.add(*match.captures)
           end
         end
