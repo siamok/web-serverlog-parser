@@ -16,7 +16,6 @@ chmod +x parser.rb
 `rspec`
 
 ### Usage:
-`
 ```
 usage ./parser <path>[,<path>...]
     -o <output_path> - specified output file
